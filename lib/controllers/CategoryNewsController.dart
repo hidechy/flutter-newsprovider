@@ -5,23 +5,27 @@ import 'package:http/http.dart' as http;
 
 import '../models/NewsResponse.dart';
 
-class HeadlineNewsController extends ChangeNotifier {
+class CategoryNewsController extends ChangeNotifier {
+  var category = "";
+
   List data = [];
 
   ///
-  handleGetHeadlineNewsButton() async {
-    data = await getHeadlineNews();
+  handleCategoryChip({required String chipValue}) async {
+    category = chipValue;
+
+    data = await getCategoryNews();
 
     notifyListeners();
   }
 
   ///
-  getHeadlineNews() async {
+  getCategoryNews() async {
     String country = "jp";
     String apiKey = "a7671b32f93f4086901844f9d805d0bc";
 
     Uri uri = Uri.parse(
-        'https://newsapi.org/v2/top-headlines?country=$country&apiKey=$apiKey');
+        'https://newsapi.org/v2/top-headlines?country=$country&apiKey=$apiKey&category=$category');
 
     var response = await http.get(uri);
 

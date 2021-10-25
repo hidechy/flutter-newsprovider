@@ -1,18 +1,17 @@
 // To parse this JSON data, do
 //
-//     final headlineNewsResponse = headlineNewsResponseFromJson(jsonString);
+//     final NewsResponse = NewsResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-HeadlineNewsResponse headlineNewsResponseFromJson(String str) =>
-    HeadlineNewsResponse.fromJson(json.decode(str));
+NewsResponse NewsResponseFromJson(String str) =>
+    NewsResponse.fromJson(json.decode(str));
 
-String headlineNewsResponseToJson(HeadlineNewsResponse data) =>
-    json.encode(data.toJson());
+String NewsResponseToJson(NewsResponse data) => json.encode(data.toJson());
 
 ///
-class HeadlineNewsResponse {
-  HeadlineNewsResponse(
+class NewsResponse {
+  NewsResponse(
       {required this.status,
       required this.totalResults,
       required this.articles});
@@ -21,8 +20,7 @@ class HeadlineNewsResponse {
   int totalResults;
   List<Article> articles;
 
-  factory HeadlineNewsResponse.fromJson(Map<String, dynamic> json) =>
-      HeadlineNewsResponse(
+  factory NewsResponse.fromJson(Map<String, dynamic> json) => NewsResponse(
         status: json["status"],
         totalResults: json["totalResults"],
         articles: List<Article>.from(
