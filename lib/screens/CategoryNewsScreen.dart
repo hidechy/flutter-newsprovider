@@ -11,7 +11,7 @@ class CategoryNewsScreen extends StatelessWidget {
   final List<List<String>> _categories = [
     ['general', '総合'],
     ['business', 'ビジネス'],
-    ['entertainment', 'エンターテインメント'],
+    ['entertainment', 'エンタメ'],
     ['technology', 'テクノロジー'],
     ['science', '科学'],
     ['sports', 'スポーツ']
@@ -21,15 +21,11 @@ class CategoryNewsScreen extends StatelessWidget {
 
   Size size = const Size(0, 0);
 
-  var response;
-
   CategoryNewsScreen({Key? key}) : super(key: key);
 
   ///
   @override
   Widget build(BuildContext context) {
-    response = Provider.of<CategoryNewsController>(context, listen: true);
-
     size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -38,27 +34,31 @@ class CategoryNewsScreen extends StatelessWidget {
         centerTitle: true,
         actions: const [],
       ),
-      body: Column(
-        children: [
-          _makeCategoryChips(),
-          const SizedBox(height: 20),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(
-              vertical: 5,
-              horizontal: 10,
-            ),
-            decoration: BoxDecoration(
-              color: Colors.yellowAccent.withOpacity(0.3),
-            ),
-            child: Text(response.category),
-          ),
-          Expanded(
-            child: NewsList(
-              response: response,
-            ),
-          ),
-        ],
+      body: Consumer<CategoryNewsController>(
+        builder: (context, model, child) {
+          return Column(
+            children: [
+              _makeCategoryChips(),
+              const SizedBox(height: 20),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 5,
+                  horizontal: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.yellowAccent.withOpacity(0.3),
+                ),
+                child: Text(model.category),
+              ),
+              Expanded(
+                child: NewsList(
+                  response: model,
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -87,23 +87,27 @@ class CategoryNewsScreen extends StatelessWidget {
 
   ///
   Widget _makeChip({required int number}) {
-    return ChoiceChip(
-      backgroundColor: Colors.black.withOpacity(0.1),
-      selectedColor: Colors.black.withOpacity(0.1),
-      label: Container(
-        alignment: Alignment.center,
-        width: (size.width / 3) - 40,
-        child: Text(
-          _categories[number][1],
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 10,
+    return Consumer<CategoryNewsController>(
+      builder: (context, model, child) {
+        return ChoiceChip(
+          backgroundColor: Colors.black.withOpacity(0.1),
+          selectedColor: Colors.black.withOpacity(0.1),
+          label: Container(
+            alignment: Alignment.center,
+            width: (size.width / 3) - 40,
+            child: Text(
+              _categories[number][1],
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+              ),
+            ),
           ),
-        ),
-      ),
-      selected: _selectedCategory == number,
-      onSelected: (bool isSelected) {
-        response.handleCategoryChip(chipValue: _categories[number][0]);
+          selected: _selectedCategory == number,
+          onSelected: (bool isSelected) {
+            model.handleCategoryChip(chipValue: _categories[number][0]);
+          },
+        );
       },
     );
   }

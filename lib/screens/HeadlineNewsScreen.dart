@@ -12,25 +12,27 @@ class HeadlineNewsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var response = Provider.of<HeadlineNewsController>(context, listen: true);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Headline News'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.call_received),
-            onPressed: () {
-              response.handleGetHeadlineNewsButton();
-            },
-            color: Colors.greenAccent,
+    return Consumer<HeadlineNewsController>(
+      builder: (context, model, child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Headline News'),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.call_received),
+                onPressed: () {
+                  model.handleGetHeadlineNewsButton();
+                },
+                color: Colors.greenAccent,
+              ),
+            ],
           ),
-        ],
-      ),
-      body: NewsList(
-        response: response,
-      ),
+          body: NewsList(
+            response: model,
+          ),
+        );
+      },
     );
   }
 }
