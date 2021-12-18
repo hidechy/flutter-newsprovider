@@ -2,6 +2,8 @@
 //
 //     final NewsResponse = NewsResponseFromJson(jsonString);
 
+// ignore_for_file: file_names, non_constant_identifier_names
+
 import 'dart:convert';
 
 NewsResponse NewsResponseFromJson(String str) =>
@@ -57,24 +59,24 @@ class Article {
 
   factory Article.fromJson(Map<String, dynamic> json) => Article(
         source: Source.fromJson(json["source"]),
-        author: json["author"] == null ? null : json["author"],
+        author: json["author"],
         title: json["title"],
         description: json["description"],
         url: json["url"],
         urlToImage: json["urlToImage"],
         publishedAt: DateTime.parse(json["publishedAt"]),
-        content: json["content"] == null ? null : json["content"],
+        content: json["content"],
       );
 
   Map<String, dynamic> toJson() => {
         "source": source.toJson(),
-        "author": author == null ? null : author,
+        "author": author,
         "title": title,
         "description": description,
         "url": url,
         "urlToImage": urlToImage,
         "publishedAt": publishedAt.toIso8601String(),
-        "content": content == null ? null : content,
+        "content": content,
       };
 }
 
